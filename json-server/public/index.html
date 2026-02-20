@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D</title>
+  </head>
+  <body>
+    <h3>json-server실행</h3>
+    <button id="post">댓글등록</button>
+    <button id="put">댓글수정</button>
+    <script>
+      //1번글 댓글 추가
+      document.querySelector("#post").addEventListener("click", (e) => {
+        //서버에 페이지요청
+        fetch("http://localhost:3000/comments", {
+          method: "post", //get: 전송데이터 header 저장, post: body 저장,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ body: "등1123록1연1습", postId: 2 }),
+        })
+          .then((resp) => resp.json())
+          .then((result) => console.log(result));
+      });
+      //추가된 글에 대한 수정
+      document.querySelector("#put").addEventListener("click", (e) => {
+        //서버에 페이지요청
+        fetch("http://localhost:3000/comments?postId=1", {
+          method: "put", //get: 전송데이터 header 저장, post: body 저장,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            body: "등1록2연3습4",
+            postId: 3,
+          }),
+        })
+          .then((resp) => resp.json())
+          .then((result) => console.log(result));
+      });
+    </script>
+  </body>
+</html>

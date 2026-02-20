@@ -1,0 +1,71 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "1번",
+      "author": "user01"
+    },
+    {
+      "id": "2",
+      "title": "등록연습2",
+      "author": "user2"
+    },
+    {
+      "id": "87ad",
+      "title": "등록연습",
+      "author": "user99"
+    },
+    {
+      "id": "985f",
+      "title": "등록연습",
+      "author": "user99"
+    },
+    {
+      "id": "e2d4",
+      "title": "등록연습",
+      "author": "user99"
+    },
+    {
+      "id": "19c4",
+      "title": "등록연습",
+      "author": "user99"
+    },
+    {
+      "id": "f9eb",
+      "title": "등록연습",
+      "author": "user99"
+    },
+    {
+      "id": "e808",
+      "title": "등록연습",
+      "author": "user99"
+    },
+    {
+      "id": "657e",
+      "title": "등록연습",
+      "author": "user99"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "body": "댓글",
+      "postId": 1
+    },
+    {
+      "id": "2",
+      "body": "댓글2",
+      "postId": 1
+    },
+    {
+      "id": "3",
+      "body": "2댓글1",
+      "postId": 2
+    },
+    {
+      "id": "45d4",
+      "body": "등1123록1연1습",
+      "postId": 2
+    }
+  ]
+}
