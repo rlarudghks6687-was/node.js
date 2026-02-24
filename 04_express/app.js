@@ -4,7 +4,7 @@ const customerRoute = require("./routes/customer");
 const fs = require("fs");
 const session = require("express-session");
 const fileStore = require("session-file-store")(session);
-const cors = require("cirs");
+const cors = require("cors");
 const compression = require("compression");
 
 //정적파일 폴더(html,css,js)
@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
 app.use("/customer", customerRoute);
 app.use("/product", require("./routes/product"));
 
-app.get("/data", (rea, res) => {
+app.get("/data", (req, res) => {
   res.json({ id: "1001", data: "sample" });
 });
 
