@@ -10,13 +10,18 @@
       <div class="mail-header">
         <h3>✉️ 메일 발송</h3>
       </div>
-      <form action="#" method="post" class="mail-form">
+      <form
+        action="./api/mail"
+        method="post"
+        enctype="multipart/form-data"
+        class="mail-form"
+      >
         <div class="input-group">
           <label for="sender">발신자</label>
           <input
             type="email"
             id="sender"
-            name="sender"
+            name="from"
             placeholder="보내는 분의 이메일 주소"
             required
           />
@@ -27,7 +32,7 @@
           <input
             type="email"
             id="receiver"
-            name="receiver"
+            name="to"
             placeholder="받는 분의 이메일 주소"
             required
           />
@@ -48,11 +53,14 @@
           <label for="message">내용</label>
           <textarea
             id="message"
-            name="message"
+            name="text"
             rows="10"
             placeholder="메일 내용을 작성해주세요"
-            required
           ></textarea>
+        </div>
+        <div class="input-group">
+          <label for="file">첨부파일</label>
+          <input type="file" id="file" name="file" />
         </div>
 
         <button type="submit" class="send-btn">보내기</button>
@@ -60,6 +68,7 @@
     </div>
     <script>
       document.querySelector(".mail-Form").addEventListener("submit", (e) => {
+        // console.log(e);
         e.preventDefault(); //form submit기본기능 차단
         //필요항목.
         const from = document.querySelector("#sender").value;
@@ -70,15 +79,26 @@
           alert("필수 항목 입력.");
           return;
         }
-        //fetch.
+        const formData = new FormData(); //multipart요청
+        formData.append("from", from);
+        formData.append("to", to);
+        formData.append("subject", subject);
+        formData.append("text", text);
+        formData.append("file", e.target[4].files[0]);
         fetch("./api/mail", {
           method: "post",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ from, to, subject, text }),
+          // headers: { "Content-Type": "application/json" },
+          body: formData,
         })
           .then((resp) => resp.json())
           .then((data) => {
             console.log(data);
+            if (data.retCode == "OK") {
+              alert("메일 발송");
+              location.reload();
+            } else {
+              alert("실패");
+            }
           })
           .catch((err) => console.log(err));
       });

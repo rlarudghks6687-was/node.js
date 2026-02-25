@@ -6,8 +6,8 @@ const gogleConfig = {
   port: 587,
   secure: false,
   auth: {
-    user: "@gmail.com",
-    pass: "",
+    user: "rlarudghks6687@gmail.com",
+    pass: "nehu tfzf wbtg vvwd",
   },
 };
 
@@ -50,4 +50,13 @@ const send = async (data) => {
 //     console.log(data);
 //   },
 // );
+// send({
+//   from: "rlarudghks6687@gmail.com",
+//   to: "shade6687@naver.com",
+//   subject: "<p>파일첨부</p>",
+//   attachments: [
+//     { filename: "pepe.gif", path: __dirname + "/uploads/" + "pepe.gif" },
+//   ],
+// });
+// console.log("ypaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 module.exports = { send };

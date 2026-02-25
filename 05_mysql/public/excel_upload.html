@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>엑셀</title>
+    <link rel="stylesheet" href="exce_upload.css" />
+  </head>
+  <body>
+    <form class="upload-box">
+      <h2>Excel File Upload</h2>
+      <p>전송할 엑셀 파일을 선택해주세요.</p>
+
+      <div class="file-wrapper">
+        <input type="file" id="excel-upload" accept=".xlsx, .xls" />
+        <label for="excel-upload" class="myFile">파일 선택</label>
+        <span id="file-name">선택된 파일 없음</span>
+      </div>
+
+      <button type="submit" class="btn-submit">서버로 업로드</button>
+    </form>
+    <script>
+      document.querySelector(".upload-box").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const fileInput = document.querySelector("#excel-upload");
+        const file = fileInput.files[0];
+
+        if (!file) {
+          alert("파일첨부 바람");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("myFile", file);
+
+        fetch("/api/excel_upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            if (data.retCode === "OK") {
+              alert("전송!");
+              location.reload();
+            } else {
+              alert("실패");
+            }
+          })
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>
