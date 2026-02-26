@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시판 목록</title>
+    <style>
+      /* 기본 스타일 초기화 */
+      body {
+        font-family:
+          "Pretendard",
+          -apple-system,
+          BlinkMacSystemFont,
+          system-ui,
+          Roboto,
+          sans-serif;
+        background-color: #f9f9f9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px;
+      }
+
+      h3 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      /* 테이블 스타일 */
+      .board-table {
+        width: 100%;
+        max-width: 800px;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .board-table th,
+      .board-table td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+      }
+
+      .board-table th {
+        background-color: #007bff;
+        color: white;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+
+      /* 행(row)에 마우스를 올렸을 때 효과 */
+      .board-table tbody tr:hover {
+        background-color: #f1f7ff;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      /* 제목은 왼쪽 정렬 */
+      .title-column {
+        text-align: left !important;
+        width: 40%;
+      }
+
+      .date-column {
+        color: #888;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>게시글 목록</h3>
+
+    <table class="board-table">
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>제목</th>
+          <th>작성자</th>
+          <th>작성일시</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script>
+      //페이지 로딩되면서 데이터를 가져와서 목록 그리기
+      fetch("./api/board")
+        .then((resp) => resp.json())
+        .then((data) => {
+          //tr의 상위요소에 insertAdjacentHTML()함수를 활용
+          const parent = document.querySelector("tbody");
+          //for of 반복문
+          for (let board of data) {
+            console.log(board);
+            const { board_id, title, name, created_at } = board;
+            const html = `<tr>
+                            <td>${board_id}</td>
+                            <td class="title-column">
+                              <a href="boardDetail.html" data-page="${board_id}">${title}</a>
+                            </td>
+                            <td>${name}</td>
+                            <td class="date-column">${created_at}</td>
+                          </tr>`;
+            parent.insertAdjacentHTML("beforeend", html);
+          } //end of for
+          //a 태그의 요소를 가져와서 클릭이벤트
+          document.querySelectorAll("tbody a").forEach((elem) => {
+            elem.addEventListener("click", (e) => {
+              e.preventDefault(); //클릭 기본기능 차단
+              //클릭한 글번호를 localStorage에 저장
+              localStorage.setItem("page", e.target.dataset.page);
+              location.href = "boardDetail.html";
+            });
+          });
+        })
+        .catch(console.log());
+    </script>
+  </body>
+</html>

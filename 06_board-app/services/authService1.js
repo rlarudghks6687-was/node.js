@@ -1,15 +1,15 @@
 const bcrypt = require("bcrypt");
-const authModel = require("../models/memberModel");
+const authModel = require("../models/memberModel1");
 
 //회원가입(signup)
-async function signup(loginId, name, password, role) {
+async function signup1(loginId, name, password, role) {
   const hashed = await bcrypt.hash(password, 10); //평문 암호화
   // console.log(hashed);
   return authModel.createMember(loginId, name, hashed, role);
 }
 
 //로그인
-async function login(loginId, password) {
+async function login1(loginId, password) {
   const [rows] = await authModel.findMemberById(loginId);
   console.log(rows);
   //조회된 결과 X 실패
@@ -24,7 +24,7 @@ async function login(loginId, password) {
     return null;
   }
   //정상처리
-  return user; //token
+  return true; //token
 }
 
-module.exports = { signup, login };
+module.exports = { signup1, login1 };

@@ -122,6 +122,22 @@ app.post("/api/excel_upload", upload.single("myFile"), async (req, res) => {
   }
 });
 
+// //엑셀 파일 다운로드
+// app.get("/api/exle_download", async (req, res) => {
+//   const workbook = xlsx.utils.book_new();
+//   const customers = await mysql.query('customerList')
+
+//   // json_to_sheet 방식으로 데이터 생성
+//   const firstSheet = xlsx.utils.json_tp_sheet( customers, {
+//     header: ["id", "name", "email", "phone", "address"]
+//   });
+
+//   // 시트에 작성한 데이터 넣기
+//   xlsx.utils.book_append_sheet( workbook, firstSheet, "Customers" );
+//   res.setHeader('Content-disposition', 'attachment; filename=Customer.xlsx'); //다운로드 파일명 설정
+//   res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); //다운로드 파일명 설정
+//   res.end( Buffer.from(xlsx.write(workbook, {type: 'base64'}), 'base64'));
+// })
 app.listen(3000, () => {
   console.log("server is runing");
 });

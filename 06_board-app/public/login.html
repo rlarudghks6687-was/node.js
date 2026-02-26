@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로그인 페이지</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <h3>로그인</h3>
+      <form action="#" id="loginForm">
+        <div class="input-group">
+          <label for="username">아이디 또는 이메일</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="아이디를 입력하세요"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="password">비밀번호</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="비밀번호를 입력하세요"
+            required
+          />
+        </div>
+        <button type="submit" class="login-btn">로그인</button>
+      </form>
+
+      <div class="options">
+        <a href="#">비밀번호를 잊으셨나요?</a> | <a href="#">회원가입</a>
+      </div>
+    </div>
+    <script>
+      //이벤트 폼이벤트
+
+      document.querySelector("#loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const loginId = document.querySelector("#username").value;
+        const password = document.querySelector("#password").value;
+
+        //ajax호출
+        fetch("./api/auth/login", {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ loginId, password }),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            if (data.retCode == "OK") {
+              alert("로그인 성공, 글목록으로 이동");
+              location.href = "boarderList.html";
+            } else {
+              alert("아이디와 비밀번호 확인");
+              location.reload();
+            }
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 //sql구문 실행
 const mysql = require("mysql2/promise");
-require("dotenv").config({ path: "../.env" });
+// require("dotenv").config({ path: "../.env" });
 
 //pool 활용
 const pool = mysql.createPool({
@@ -11,9 +11,9 @@ const pool = mysql.createPool({
   database: process.env.DB_DATABASE,
 });
 
-async function test() {
-  const result = await pool.query("select * from customers");
-  console.log(result);
-}
-test();
-// module.exports = pool;
+// async function test() {
+//   const result = await pool.query("select * from customers");
+//   console.log(result);
+// }
+// test();
+module.exports = pool;

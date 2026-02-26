@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시글 등록</title>
+    <style>
+      /* 기본 스타일 초기화 및 폰트 설정 */
+      body {
+        font-family:
+          "Pretendard",
+          -apple-system,
+          BlinkMacSystemFont,
+          system-ui,
+          Roboto,
+          sans-serif;
+        background-color: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* 폼 컨테이너 스타일 */
+      .post-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+      }
+
+      h3 {
+        margin-top: 0;
+        margin-bottom: 24px;
+        color: #333;
+        text-align: center;
+        font-size: 1.5rem;
+      }
+
+      /* 입력 그룹 스타일 */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #555;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+      }
+
+      /* 내용 입력창 높이 조절 */
+      textarea {
+        resize: vertical;
+        min-height: 150px;
+      }
+
+      /* 버튼 스타일 */
+      .submit-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .submit-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="post-container">
+      <h3>게시글 등록</h3>
+      <form action="#" method="POST">
+        <div class="form-group">
+          <label for="title">제목</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="제목을 입력하세요"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="author">작성자</label>
+          <input
+            type="text"
+            id="author"
+            name="author"
+            placeholder="이름을 입력하세요"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="content">내용</label>
+          <textarea
+            id="content"
+            name="content"
+            placeholder="내용을 입력하세요"
+          ></textarea>
+        </div>
+        <button type="submit" class="submit-btn">등록하기</button>
+      </form>
+    </div>
+    <script>
+      //fetch 활용해서 등록
+      document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const postData = {
+          title: document.querySelector("#title").value, //제목 입력값을 받겠다
+          content: document.querySelector("#content").value, //내용 입력값
+          id: document.querySelector("#author").value, //id(writer_id) 입력값
+        };
+        if (!postData.title || !postData.content || !postData.id) {
+          alert("제목, 작성자, 내용 입력바람");
+          return;
+        }
+        fetch("./api/board", {
+          //해당 주소 부르기
+          method: "post",
+          headers: { "Content-Type": "application/json" }, //multipart시 headers 주석 가능
+          body: JSON.stringify(postData),
+        })
+          .then((resp) => resp.json()) //값 확인
+          .then((data) => {
+            //값 반영
+            location.href = "boarderList.html";
+          })
+          .catch((err) => console.log(err)); //이상
+      });
+    </script>
+  </body>
+</html>
