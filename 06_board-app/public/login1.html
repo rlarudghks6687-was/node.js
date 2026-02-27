@@ -53,9 +53,8 @@
           .then((resp) => resp.json())
           .then((data) => {
             if (data.retCode == "OK") {
-              localStorage.setItem("token", data.token);
-              location.href = "boarderList.html";
               alert("로그인 성공, 글목록으로 이동");
+              location.href = "boarderList.html";
             } else {
               alert("아이디와 비밀번호 확인");
               location.reload();

@@ -143,16 +143,29 @@
           alert("제목, 작성자, 내용 입력바람");
           return;
         }
+        // ajax 호출
         fetch("./api/board", {
           //해당 주소 부르기
           method: "post",
-          headers: { "Content-Type": "application/json" }, //multipart시 headers 주석 가능
-          body: JSON.stringify(postData),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer" + " " + localStorage.getItem("token"),
+          }, //multipart시 headers 주석 가능
+          body: JSON.stringify({
+            title: postData.title,
+            content: postData.content,
+          }),
         })
           .then((resp) => resp.json()) //값 확인
           .then((data) => {
-            //값 반영
             location.href = "boarderList.html";
+            // if (data.retCode == "OK") {
+            //   alert("성공");
+            //   location.href = "boarderList.html";
+            // } else {
+            //   alert(`${data.retMsg}`);
+            // }
+            //값 반영
           })
           .catch((err) => console.log(err)); //이상
       });

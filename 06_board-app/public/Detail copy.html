@@ -1,0 +1,159 @@
+<!-- <!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시글 상세 정보</title>
+    <style>
+      body {
+        font-family:
+          "Pretendard",
+          -apple-system,
+          BlinkMacSystemFont,
+          system-ui,
+          Roboto,
+          sans-serif;
+        background-color: #f4f7f6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px 20px;
+        margin: 0;
+      }
+
+      /* 게시글 카드 컨테이너 */
+      .post-container {
+        width: 100%;
+        max-width: 850px;
+        background-color: #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        overflow: hidden;
+        padding: 40px;
+        box-sizing: border-box;
+      }
+
+      /* 상단 헤더: 제목과 메타정보 */
+      .post-header {
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+      }
+
+      .post-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0 0 15px 0;
+        line-height: 1.4;
+      }
+
+      .post-meta {
+        display: flex;
+        color: #777;
+        font-size: 0.95rem;
+        gap: 20px;
+      }
+
+      .post-meta span b {
+        color: #333;
+        margin-right: 5px;
+      }
+
+      /* 본문 영역 */
+      .post-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #444;
+        min-height: 300px;
+        white-space: pre-wrap; /* 줄바꿈 유지 */
+      }
+
+      /* 하단 버튼 영역 */
+      .btn-container {
+        margin-top: 30px;
+        width: 100%;
+        max-width: 850px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 1rem;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+
+      .back-btn {
+        background-color: #f0f0f0;
+        color: #555;
+      }
+
+      .back-btn:hover {
+        background-color: #e0e0e0;
+      }
+
+      /* 수정/삭제 버튼 (추가 디자인) */
+      .edit-btn {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .edit-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="post-container">
+      <header class="post-header">
+        <h2 class="post-title" id="display-title">불러오는 중...</h2>
+        <div class="post-meta">
+          <span><b>작성자</b> <span id="display-name">-</span></span>
+          <span><b>작성일</b> <span id="display-date">-</span></span>
+          <span><b>번호</b> #<span id="display-id">-</span></span>
+        </div>
+      </header>
+
+      <article class="post-content" id="display-content">
+        내용을 불러오고 있습니다.
+      </article>
+    </div>
+
+    <div class="btn-container">
+      <a href="boarderList.html" class="btn back-btn">목록으로 돌아가기</a>
+      <a href="#" class="btn edit-btn">수정하기</a>
+    </div>
+
+    <script>
+      const page = localStorage.getItem("page");
+
+      // 요소 선택
+      const titleEl = document.querySelector("#display-title");
+      const nameEl = document.querySelector("#display-name");
+      const dateEl = document.querySelector("#display-date");
+      const idEl = document.querySelector("#display-id");
+      const contentEl = document.querySelector("#display-content");
+
+      fetch("./api/board/" + page)
+        .then((resp) => resp.json())
+        .then(({ user, data }) => {
+          const board = data[0]; // 데이터 구조에 따라 data[0] 또는 data 사용
+
+          titleEl.textContent = board.title;
+          nameEl.textContent = board.name;
+          dateEl.textContent = board.created_at;
+          idEl.textContent = board.board_id;
+          contentEl.textContent = board.content;
+        })
+        .catch((err) => {
+          console.error("데이터 로드 실패:", err);
+          contentEl.innerHTML = `<p style="color:red;">데이터를 불러오는 중 오류가 발생했습니다.</p>`;
+        });
+    </script>
+  </body>
+</html> -->

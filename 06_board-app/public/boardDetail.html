@@ -4,122 +4,91 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>게시글 상세 정보</title>
-    <style>
-      /* boarderList.html의 스타일과 통일감을 유지합니다 */
-      body {
-        font-family:
-          "Pretendard",
-          -apple-system,
-          BlinkMacSystemFont,
-          system-ui,
-          Roboto,
-          sans-serif;
-        background-color: #f9f9f9;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 50px;
-      }
-
-      h3 {
-        color: #333;
-        margin-bottom: 20px;
-      }
-
-      .board-table {
-        width: 100%;
-        max-width: 800px;
-        border-collapse: collapse;
-        background-color: #fff;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        overflow: hidden;
-      }
-
-      .board-table th,
-      .board-table td {
-        padding: 15px;
-        text-align: center;
-        border-bottom: 1px solid #eee;
-      }
-
-      .board-table th {
-        background-color: #007bff;
-        color: white;
-        font-weight: 600;
-        width: 25%; /* 상세화면이므로 너비를 균등하게 분배 */
-      }
-
-      /* 목록으로 돌아가기 버튼 스타일 */
-      .btn-container {
-        margin-top: 20px;
-        width: 100%;
-        max-width: 800px;
-        display: flex;
-        justify-content: flex-end;
-      }
-
-      .back-btn {
-        padding: 10px 20px;
-        background-color: #6c757d;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 0.9em;
-        transition: 0.2s;
-      }
-
-      .back-btn:hover {
-        background-color: #5a6268;
-      }
-    </style>
+    <link rel="stylesheet" href="boardDetail.css" />
   </head>
   <body>
-    <h3>게시글 상세 보기</h3>
+    <div class="post-container">
+      <header class="post-header">
+        <h2 class="post-title" id="display-title">불러오는 중...</h2>
+        <div class="post-meta">
+          <span><b>작성자</b> <span id="display-name">-</span></span>
+          <span><b>작성일</b> <span id="display-date">-</span></span>
+          <span><b>번호</b> #<span id="display-id">-</span></span>
+        </div>
+      </header>
 
-    <table class="board-table">
-      <thead>
-        <tr>
-          <th id="id">번호</th>
-          <th id="title">제목</th>
-          <th id="content">내용</th>
-          <th id="name">작성자</th>
-          <th id="created_at">작성일시</th>
-        </tr>
-      </thead>
-      <tbody id="board-content"></tbody>
-    </table>
+      <article class="post-content" id="display-content">
+        내용을 불러오고 있습니다.
+      </article>
+    </div>
 
     <div class="btn-container">
-      <a href="boarderList.html" class="back-btn">목록으로 돌아가기</a>
+      <a href="boarderList.html" class="btn back-btn">목록</a>
+      <a href="#" class="btn edit-btn">수정</a>
+      <a href="#" class="btn delete-btn" id="del">삭제</a>
     </div>
 
     <script>
       const page = localStorage.getItem("page");
-      const parent = document.querySelector("#board-content");
 
-      // API 호출 시 경로에 슬래시(/)가 빠지지 않았는지 확인이 필요할 수 있습니다.
-      // 예: "./api/board/" + page
+      // 요소 선택
+      const titleEl = document.querySelector("#display-title");
+      const nameEl = document.querySelector("#display-name");
+      const dateEl = document.querySelector("#display-date");
+      const idEl = document.querySelector("#display-id");
+      const contentEl = document.querySelector("#display-content");
+
       fetch("./api/board/" + page)
         .then((resp) => resp.json())
-        .then((data) => {
-          const html = `<tr>
-                        <td>${data[0].board_id}</td>
-                        <td>${data[0].title}</td>
-                        <td>${data[0].content}</td>
-                        <td>${data[0].name}</td>
-                        <td>${data[0].created_at}</td>   
-                      </tr>`;
-          console.log(data);
-          parent.insertAdjacentHTML("beforeend", html);
-          const [board] = data;
+        .then(({ user, data }) => {
+          const board = data[0]; // 데이터 구조에 따라 data[0] 또는 data 사용
+          // document.querySelector("#display-name").innerHTML = user.member_id;
+          // document.querySelector("#writer_id").innerHTML = board.writer_id;
+
+          titleEl.textContent = board.title;
+          nameEl.textContent = board.name;
+          dateEl.textContent = board.created_at;
+          idEl.textContent = board.board_id;
+          contentEl.textContent = board.content;
+          console.log(user);
         })
         .catch((err) => {
           console.error("데이터 로드 실패:", err);
-          parent.innerHTML = `<tr><td colspan="4">데이터를 불러오는 중 오류가 발생했습니다.</td></tr>`;
+          contentEl.innerHTML = `<p style="color:red;">데이터를 불러오는 중 오류가 발생했습니다.</p>`;
         });
 
-      //[배열{객체}]
+      //삭제버튼
+      document.querySelector("#del").addEventListener("click", (e) => {
+        fetch("./api/board/" + page, {
+          //해당 주소 부르기
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer" + " " + localStorage.getItem("token"),
+          }, //multipart시 headers 주석 가능
+        })
+          .then((resp) => resp.json()) //값 확인
+          .then((data) => {
+            // location.href = "boarderList.html";
+            if (data.retCode == "OK") {
+              alert("성공");
+              location.href = "boarderList.html";
+            } else {
+              alert(`${data.retMsg}`);
+            }
+            // 값 반영
+          })
+          .catch((err) => console.log(err)); //이상
+      });
+      // document.querySelector(".btn edit-btn").addEventListener("click", (e) => {
+      //   // const mid = document.querySelector("#member_id").innerHTML;
+      //   // const wid = document.querySelector("#writer_id").innerHTML;
+      //   // if (mid == wid) {
+      //   //   alert("수정체이지로 이동");
+      //   // } else {
+      //   //   alert("권한 확인바람");
+      //   // }
+      // });
     </script>
   </body>
 </html>

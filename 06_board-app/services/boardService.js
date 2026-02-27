@@ -17,4 +17,16 @@ async function create(title, content, id) {
   return boardModel.insert(title, content, id);
 }
 
-module.exports = { getList, getDetail, create };
+//삭제(remove)        글번호
+async function remove(board_id, user) {
+  const [rows] = await boardModel.getById(board_id);
+  const board = rows[0];
+  console.log(board_id);
+  //권한체크
+  if (board.writer_id != user.member_id) {
+    return "NO_AUTH";
+  }
+  return boardModel.remove(board_id);
+}
+
+module.exports = { getList, getDetail, create, remove };

@@ -6,8 +6,8 @@ const gogleConfig = {
   port: 587,
   secure: false,
   auth: {
-    user: "rlarudghks6687@gmail.com",
-    pass: "nehu tfzf wbtg vvwd",
+    user: "",
+    pass: "",
   },
 };
 

@@ -31,4 +31,10 @@ async function insert(title, content, id) {
   return pool.query(sql, [title, content, id]);
 }
 
-module.exports = { getList, getById, insert };
+//글삭제(remove)
+async function remove(id) {
+  const sql = `delete from tbl_board where board_id = ?`;
+  return pool.query(sql, [id]);
+}
+
+module.exports = { getList, getById, insert, remove };

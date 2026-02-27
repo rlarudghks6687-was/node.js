@@ -17,7 +17,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false, // true -> https, false -> http
-      maxAge: 10 * 60 * 1000,
+      maxAge: 10 * 60 * 1000, // 쿠키 유지시간
     },
     // store: new fileStore(), //추가
   }),
@@ -29,7 +29,7 @@ app.use("/api/auth", require("./routes/authRoutes"));
 
 //서버 시작
 app.listen(3000, () => {
-  console.log("http://localhost3000 is running");
+  console.log("http://localhost:3000 is running");
 });
 
 //http://localhost3000/board => 전체목록
